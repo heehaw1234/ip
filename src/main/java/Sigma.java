@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
 public class Sigma {
+    // attributes
+    private static String[] taskList = new String[100]; // initialise an array of size 100
+    private static int taskListHead = 0;
+
     public static void main(String[] args) {
         sayIntro();
 
@@ -13,12 +17,15 @@ public class Sigma {
                 sayBye();
                 return;
             }
+            if (userInput.equals("list")){
+                printList();
+                continue;
+            }
 
             if (userInput.equals("sigma")){
                 echo("SIGMA INDEED!!!!");
-                continue;
             }
-            echo(userInput);
+            addList(userInput);
         }
     }
 
@@ -43,6 +50,22 @@ public class Sigma {
     private static void sayBye(){
         System.out.println("____________________________________________________________");
         System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("____________________________________________________________");
+    }
+
+    private static void addList(String userInput){
+        taskList[taskListHead] = userInput;
+        taskListHead += 1;
+        System.out.println("____________________________________________________________");
+        System.out.println("added: " + userInput);
+        System.out.println("____________________________________________________________");
+    }
+
+    private static void printList(){
+        System.out.println("____________________________________________________________");
+        for (int i = 0; i < taskListHead; i += 1){
+            System.out.println((i+1) + ". " + taskList[i]);
+        }
         System.out.println("____________________________________________________________");
     }
 }
