@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Sigma {
     // attributes
-    private static String[] taskList = new String[100]; // initialise an array of size 100
+    private static Task[] taskList = new Task[100]; // initialise an array of size 100
     private static int taskListHead = 0;
 
     public static void main(String[] args) {
@@ -21,12 +21,35 @@ public class Sigma {
                 printList();
                 continue;
             }
+            if (userInput.startsWith("mark")){
+                marker(userInput.substring(5, 6), true);
+                continue;
+            }
+            if (userInput.startsWith("unmark")){
+                marker(userInput.substring(7, 8), false);
+                continue;
+            }
 
             if (userInput.equals("sigma")){
                 echo("SIGMA INDEED!!!!");
             }
             addList(userInput);
         }
+    }
+
+    private static void marker(String index, boolean isMark){
+        int targetIndex = Integer.parseInt(index);
+        String isDoneString = (isMark) ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:";
+        if (isMark){
+            taskList[targetIndex - 1].markAsDone();
+        }
+        else if (!isMark){
+            taskList[targetIndex - 1].markAsNotDone();
+        }
+        System.out.println("____________________________________________________________");
+        System.out.println(isDoneString);
+        System.out.println(taskList[targetIndex - 1].returnTaskString());
+        System.out.println("____________________________________________________________");
     }
 
     private static void sayIntro(){
@@ -54,7 +77,8 @@ public class Sigma {
     }
 
     private static void addList(String userInput){
-        taskList[taskListHead] = userInput;
+        Task toAdd = new Task(userInput);
+        taskList[taskListHead] = toAdd;
         taskListHead += 1;
         System.out.println("____________________________________________________________");
         System.out.println("added: " + userInput);
@@ -63,8 +87,9 @@ public class Sigma {
 
     private static void printList(){
         System.out.println("____________________________________________________________");
+        System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < taskListHead; i += 1){
-            System.out.println((i+1) + ". " + taskList[i]);
+            System.out.println((i+1) + "." + taskList[i].returnTaskString());
         }
         System.out.println("____________________________________________________________");
     }
