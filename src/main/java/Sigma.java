@@ -1,6 +1,7 @@
 import java.util.Scanner; // object to take in user input
 
 public class Sigma {
+
     /** size of the list of tasks */
     private static final int LIST_SIZE = 100;
     /** list of tasks added */
@@ -23,21 +24,28 @@ public class Sigma {
             }
             if (userInput.equals("list")) {
                 printList();
-                continue;
             }
-            if (userInput.startsWith("mark")) {
+            else if (userInput.startsWith("mark")) {
                 setTaskStatus(userInput.substring(5, 6), true);
-                continue;
             }
-            if (userInput.startsWith("unmark")) {
+            else if (userInput.startsWith("unmark")) {
                 setTaskStatus(userInput.substring(7, 8), false);
-                continue;
             }
-
-            if (userInput.equals("sigma")) {
+            else if (userInput.startsWith("todo")) {
+                addTask(userInput.substring(5), 0); // 0 corresponds to Todo
+            }
+            else if (userInput.startsWith("deadline")) {
+                addTask(userInput.substring(9), 1); // 1 corresponds to Deadline
+            }
+            else if (userInput.startsWith("event")) {
+                addTask(userInput.substring(6), 2); // 2 corresponds to Event
+            }
+            else if (userInput.equals("sigma")) {
                 echo("SIGMA INDEED!!!!");
             }
-            addTask(userInput);
+            else {
+                echo(userInput);
+            }
         }
     }
 
@@ -55,7 +63,7 @@ public class Sigma {
 
         System.out.println("____________________________________________________________");
         System.out.println(isDoneString);
-        System.out.println(taskList[targetIndex - 1].returnTaskString());
+        System.out.println(" " + taskList[targetIndex - 1]);
         System.out.println("____________________________________________________________");
     }
 
@@ -88,12 +96,23 @@ public class Sigma {
     }
 
     /** this function adds a task to the list of tasks */
-    private static void addTask(String userInput) {
-        Task toAdd = new Task(userInput);
+    private static void addTask(String userInput, int typeOfTask) {
+        Task toAdd; // later on uses polymorphism to store the subtask object in the taskList array
+        if (typeOfTask == 0) { // Todo
+            toAdd = new Todo(userInput, taskListHead);
+        }
+        else if (typeOfTask == 1) { // Deadline
+            toAdd = new Deadline(userInput, taskListHead);
+        }
+        else { // Event
+            toAdd = new Event(userInput, taskListHead);
+        }
         taskList[taskListHead] = toAdd;
         taskListHead += 1;
         System.out.println("____________________________________________________________");
-        System.out.println("added: " + userInput);
+        System.out.println("Got it. I've added this task:");
+        System.out.println(" " + toAdd);
+        System.out.println("Now you have " + taskListHead + " tasks in the list.");
         System.out.println("____________________________________________________________");
     }
 
@@ -101,8 +120,11 @@ public class Sigma {
     private static void printList() {
         System.out.println("____________________________________________________________");
         System.out.println("Here are the tasks in your list:");
+        if (taskListHead == 0) {
+            System.out.println(" List is empty, add tasks");
+        }
         for (int i = 0; i < taskListHead; i += 1) {
-            System.out.println((i+1) + "." + taskList[i].returnTaskString());
+            System.out.println((i+1) + "." + taskList[i]);
         }
         System.out.println("____________________________________________________________");
     }

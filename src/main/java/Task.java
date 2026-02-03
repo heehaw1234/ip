@@ -1,13 +1,17 @@
 public class Task {
+
     /** description of the task itself */
     protected String description;
     /** boolean flag to set if task has been marked 'X' or not */
     protected boolean isDone;
+    /** index of current task in the list */
+    protected int idx;
 
     /** constructor to construct a new task */
-    public Task(String description) {
+    public Task(String description, int idx) {
         this.description = description;
         this.isDone = false; // defaults to undone
+        this.idx = idx;
     }
 
     /** returns the status of whether checkbox is marked or not */
@@ -16,8 +20,8 @@ public class Task {
     }
 
     /** returns a string of the task with checkbox */
-    public String returnTaskString() {
-        return "[" + getStatusIcon() + "] " + description;
+    public String returnMarkedString() {
+        return "[" + getStatusIcon() + "] ";
     }
 
     /** sets isDone to true */
