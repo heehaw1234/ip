@@ -16,7 +16,7 @@ public class Sigma {
         // initialise scanner object
         Scanner in = new Scanner(System.in);
 
-        while (true){
+        while (true) {
             String userInput = in.nextLine();
             if (userInput.equals("bye")) {
                 sayBye();
@@ -24,26 +24,19 @@ public class Sigma {
             }
             if (userInput.equals("list")) {
                 printList();
-            }
-            else if (userInput.startsWith("mark")) {
+            } else if (userInput.startsWith("mark")) {
                 setTaskStatus(userInput.substring(5, 6), true);
-            }
-            else if (userInput.startsWith("unmark")) {
+            } else if (userInput.startsWith("unmark")) {
                 setTaskStatus(userInput.substring(7, 8), false);
-            }
-            else if (userInput.startsWith("todo")) {
+            } else if (userInput.startsWith("todo")) {
                 addTask(userInput.substring(5), 0); // 0 corresponds to Todo
-            }
-            else if (userInput.startsWith("deadline")) {
+            } else if (userInput.startsWith("deadline")) {
                 addTask(userInput.substring(9), 1); // 1 corresponds to Deadline
-            }
-            else if (userInput.startsWith("event")) {
+            } else if (userInput.startsWith("event")) {
                 addTask(userInput.substring(6), 2); // 2 corresponds to Event
-            }
-            else if (userInput.equals("sigma")) {
+            } else if (userInput.equals("sigma")) {
                 echo("SIGMA INDEED!!!!");
-            }
-            else {
+            } else {
                 echo(userInput);
             }
         }

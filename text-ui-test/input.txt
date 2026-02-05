@@ -1,0 +1,15 @@
+sigma
+list
+todo eat poo
+list
+mark 1
+event no poo /from tuesday 5pm /to thurs 8pm
+list
+mark 1
+list
+unmark 1
+mark 2
+list
+deadline have a poo /by tomorrow 2359
+list
+bye
