@@ -5,13 +5,13 @@ public class Task {
     /** boolean flag to set if task has been marked 'X' or not */
     protected boolean isDone;
     /** index of current task in the list */
-    protected int idx;
+    protected int index;
 
     /** constructor to construct a new task */
-    public Task(String description, int idx) {
+    public Task(String description, int index) {
         this.description = description;
         this.isDone = false; // defaults to undone
-        this.idx = idx;
+        this.index = index;
     }
 
     /** returns the status of whether checkbox is marked or not */
@@ -32,5 +32,11 @@ public class Task {
     /** sets isDone to false */
     public void markAsNotDone() {
         isDone = false;
+    }
+
+    /** toString method overriding */
+    @Override
+    public String toString() {
+        return returnMarkedString() + description;
     }
 }

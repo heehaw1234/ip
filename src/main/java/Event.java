@@ -6,7 +6,7 @@ public class Event extends Task {
     protected String to;
 
     /** returns the type of current subtask object */
-    public String TypeOf() {
+    public String typeOf() {
         return "[" + "E" + "]";
     }
 
@@ -22,14 +22,14 @@ public class Event extends Task {
     }
 
     /** constructor for event object */
-    public Event(String userInput, int idx) {
-        super(userInput, idx);
+    public Event(String userInput, int index) {
+        super(userInput, index);
         parseFromTo(userInput);
     }
 
     /** toString method overriding */
     @Override
     public String toString() {
-        return TypeOf() + super.returnMarkedString() + super.description + " (from: " + from + " to: " + to + ")";
+        return typeOf() + super.returnMarkedString() + super.description + " (from: " + from + " to: " + to + ")";
     }
 }

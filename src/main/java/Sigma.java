@@ -13,7 +13,6 @@ public class Sigma {
     public static void main(String[] args) {
         sayIntro();
 
-        // initialise scanner object
         Scanner in = new Scanner(System.in);
 
         while (true) {
@@ -29,28 +28,27 @@ public class Sigma {
             } else if (userInput.startsWith("unmark")) {
                 setTaskStatus(userInput.substring(7, 8), false);
             } else if (userInput.startsWith("todo")) {
-                addTask(userInput.substring(5), 0); // 0 corresponds to Todo
+                addTask(userInput.substring(5), TaskType.TODO);
             } else if (userInput.startsWith("deadline")) {
-                addTask(userInput.substring(9), 1); // 1 corresponds to Deadline
+                addTask(userInput.substring(9), TaskType.DEADLINE);
             } else if (userInput.startsWith("event")) {
-                addTask(userInput.substring(6), 2); // 2 corresponds to Event
+                addTask(userInput.substring(6), TaskType.EVENT);
             } else if (userInput.equals("sigma")) {
                 echo("SIGMA INDEED!!!!");
             } else {
-                echo(userInput);
+                addTask(userInput, TaskType.TASK);
             }
         }
     }
 
     /** this function sets whether or not a task is marked */
-    private static void setTaskStatus(String index, boolean isMark) {
+    private static void setTaskStatus(String index, boolean isMarked) {
         int targetIndex = Integer.parseInt(index);
-        String isDoneString = (isMark) ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:";
+        String isDoneString = (isMarked) ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:";
 
-        if (isMark) {
+        if (isMarked) {
             taskList[targetIndex - 1].markAsDone();
-        }
-        else if (!isMark) {
+        } else {
             taskList[targetIndex - 1].markAsNotDone();
         }
 
@@ -89,17 +87,23 @@ public class Sigma {
     }
 
     /** this function adds a task to the list of tasks */
-    private static void addTask(String userInput, int typeOfTask) {
+    private static void addTask(String userInput, TaskType typeOfTask) {
         Task toAdd; // later on uses polymorphism to store the subtask object in the taskList array
-        if (typeOfTask == 0) { // Todo
+
+        switch (typeOfTask) {
+        case TODO:
             toAdd = new Todo(userInput, taskListHead);
-        }
-        else if (typeOfTask == 1) { // Deadline
+            break;
+        case DEADLINE:
             toAdd = new Deadline(userInput, taskListHead);
-        }
-        else { // Event
+            break;
+        case EVENT:
             toAdd = new Event(userInput, taskListHead);
+            break;
+        default:
+            toAdd = new Task(userInput, taskListHead);
         }
+
         taskList[taskListHead] = toAdd;
         taskListHead += 1;
         System.out.println("____________________________________________________________");

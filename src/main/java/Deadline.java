@@ -4,7 +4,7 @@ public class Deadline extends Task{
     protected String by;
 
     /** returns the type of current subtask object */
-    public String TypeOf() {
+    public String typeOf() {
         return "[" + "D" + "]";
     }
 
@@ -16,14 +16,14 @@ public class Deadline extends Task{
     }
 
     /** constructor for deadline object */
-    public Deadline(String userInput, int idx) {
-        super(userInput, idx);
+    public Deadline(String userInput, int index) {
+        super(userInput, index);
         parseBy(userInput);
     }
 
     /** toString method overriding */
     @Override
     public String toString() {
-        return TypeOf() + super.returnMarkedString() + super.description + " (by: " + by + ")";
+        return typeOf() + super.returnMarkedString() + super.description + " (by: " + by + ")";
     }
 }
