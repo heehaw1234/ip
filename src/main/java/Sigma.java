@@ -2,46 +2,62 @@ import java.util.Scanner; // object to take in user input
 
 public class Sigma {
 
-    /** size of the list of tasks */
+    /**
+     * size of the list of tasks
+     */
     private static final int LIST_SIZE = 100;
-    /** list of tasks added */
+    /**
+     * list of tasks added
+     */
     private static Task[] taskList = new Task[LIST_SIZE]; // initialise an array of size 100
-    /** head of the taskList */
+    /**
+     * head of the taskList
+     */
     private static int taskListHead = 0;
 
-    /** driver code, entry point of programme */
+    /**
+     * driver code, entry point of programme
+     */
     public static void main(String[] args) {
         sayIntro();
 
         Scanner in = new Scanner(System.in);
 
         while (true) {
-            String userInput = in.nextLine();
-            if (userInput.equals("bye")) {
-                sayBye();
-                return;
-            }
-            if (userInput.equals("list")) {
-                printList();
-            } else if (userInput.startsWith("mark")) {
-                setTaskStatus(userInput.substring(5, 6), true);
-            } else if (userInput.startsWith("unmark")) {
-                setTaskStatus(userInput.substring(7, 8), false);
-            } else if (userInput.startsWith("todo")) {
-                addTask(userInput.substring(5), TaskType.TODO);
-            } else if (userInput.startsWith("deadline")) {
-                addTask(userInput.substring(9), TaskType.DEADLINE);
-            } else if (userInput.startsWith("event")) {
-                addTask(userInput.substring(6), TaskType.EVENT);
-            } else if (userInput.equals("sigma")) {
-                echo("SIGMA INDEED!!!!");
-            } else {
-                addTask(userInput, TaskType.TASK);
+            try {
+                String userInput = in.nextLine();
+                if (userInput.equals("bye")) {
+                    sayBye();
+                    return;
+                }
+                if (userInput.equals("list")) {
+                    printList();
+                } else if (userInput.startsWith("mark")) {
+                    setTaskStatus(userInput.substring(5, 6), true);
+                } else if (userInput.startsWith("unmark")) {
+                    setTaskStatus(userInput.substring(7, 8), false);
+                } else if (userInput.startsWith("todo")) {
+                    addTask(userInput.substring(5), TaskType.TODO);
+                } else if (userInput.startsWith("deadline")) {
+                    addTask(userInput.substring(9), TaskType.DEADLINE);
+                } else if (userInput.startsWith("event")) {
+                    addTask(userInput.substring(6), TaskType.EVENT);
+                } else if (userInput.equals("sigma")) {
+                    echo("SIGMA INDEED!!!!");
+                } else {
+                    throw new SigmaExceptions.UnknownCommandException(userInput);
+                }
+            } catch (SigmaExceptions.UnknownCommandException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
+                System.out.println("____________________________________________________________");
             }
         }
     }
 
-    /** this function sets whether or not a task is marked */
+    /**
+     * this function sets whether or not a task is marked
+     */
     private static void setTaskStatus(String index, boolean isMarked) {
         int targetIndex = Integer.parseInt(index);
         String isDoneString = (isMarked) ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:";
@@ -58,7 +74,9 @@ public class Sigma {
         System.out.println("____________________________________________________________");
     }
 
-    /** this function greets the user */
+    /**
+     * this function greets the user
+     */
     private static void sayIntro() {
         String logo = " ____  ___  ____  __  __    _    \n"
                 + "/ ___||_ _|/ ___||  \\/  |  / \\   \n"
@@ -72,21 +90,27 @@ public class Sigma {
         System.out.println("____________________________________________________________");
     }
 
-    /** this function echoes back what the user input*/
+    /**
+     * this function echoes back what the user input
+     */
     private static void echo(String userInput) {
         System.out.println("____________________________________________________________");
         System.out.println(userInput);
         System.out.println("____________________________________________________________");
     }
 
-    /** this method says goodbye to the user */
+    /**
+     * this method says goodbye to the user
+     */
     private static void sayBye() {
         System.out.println("____________________________________________________________");
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println("____________________________________________________________");
     }
 
-    /** this function adds a task to the list of tasks */
+    /**
+     * this function adds a task to the list of tasks
+     */
     private static void addTask(String userInput, TaskType typeOfTask) {
         Task toAdd; // later on uses polymorphism to store the subtask object in the taskList array
 
@@ -113,7 +137,9 @@ public class Sigma {
         System.out.println("____________________________________________________________");
     }
 
-    /** this function prints the list of tasks a user has added with the checkbox status displayed */
+    /**
+     * this function prints the list of tasks a user has added with the checkbox status displayed
+     */
     private static void printList() {
         System.out.println("____________________________________________________________");
         System.out.println("Here are the tasks in your list:");
@@ -121,7 +147,7 @@ public class Sigma {
             System.out.println(" List is empty, add tasks");
         }
         for (int i = 0; i < taskListHead; i += 1) {
-            System.out.println((i+1) + "." + taskList[i]);
+            System.out.println((i + 1) + "." + taskList[i]);
         }
         System.out.println("____________________________________________________________");
     }
