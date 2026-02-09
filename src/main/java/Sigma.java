@@ -84,6 +84,10 @@ public class Sigma {
                 System.out.println("____________________________________________________________");
                 System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
                 System.out.println("____________________________________________________________");
+            } catch (SigmaExceptions.taskHasInvalidArgsException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
+                System.out.println("____________________________________________________________");
             } catch (Exception e) {
                 System.out.println("____________________________________________________________");
                 System.out.println("    OOPS!!! something went wrong"); //fallback
@@ -159,7 +163,7 @@ public class Sigma {
     /**
      * this function adds a task to the list of tasks
      */
-    private static void addTask(String userInput, TaskType typeOfTask) {
+    private static void addTask(String userInput, TaskType typeOfTask) throws SigmaExceptions.taskHasInvalidArgsException {
         Task toAdd; // later on uses polymorphism to store the subtask object in the taskList array
 
         switch (typeOfTask) {

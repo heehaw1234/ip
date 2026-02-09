@@ -1,4 +1,4 @@
-// wrapper class
+// wrapper class to have all exceptions in one .java file
 public class SigmaExceptions {
     /**
      * exception to catch if a command does not have any arguments passed in
@@ -33,6 +33,16 @@ public class SigmaExceptions {
     public static class didYouMeanToException extends Exception {
         public didYouMeanToException(String desiredCommand) {
             super("    OOPS!!! did you mean to type \'" + desiredCommand + "\'?");
+        }
+    }
+
+    /**
+     * exception to catch if a user tried to create a new task without valid arguments passed in
+     */
+    public static class taskHasInvalidArgsException extends Exception {
+        public taskHasInvalidArgsException(String taskType) {
+            super("    OOPS!!! I'm sorry, the arguments u have provided for the task type " + taskType + "\n    is in the wrong format, it should be "  + (taskType.equals("events") ?
+                    "\'events /from today 6pm /to tomorrow 5pm\'" : "\'deadline /by friday 0700\'"));
         }
     }
 }

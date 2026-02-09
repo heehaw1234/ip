@@ -15,16 +15,21 @@ public class Deadline extends Task {
     /**
      * parses '/by' field entered by user for current deadline object
      */
-    private void parseBy(String userInput) {
-        int index = userInput.indexOf("/by");
-        by = userInput.substring(index + 3).trim();
-        super.description = userInput.substring(0, index).trim();
+    private void parseBy(String userInput) throws SigmaExceptions.taskHasInvalidArgsException{
+        int indexOfBy = userInput.indexOf("/by");
+
+        if (indexOfBy == -1) {
+            throw new SigmaExceptions.taskHasInvalidArgsException("deadline");
+        }
+
+        by = userInput.substring(indexOfBy + 3).trim();
+        super.description = userInput.substring(0, indexOfBy).trim();
     }
 
     /**
      * constructor for deadline object
      */
-    public Deadline(String userInput, int index) {
+    public Deadline(String userInput, int index) throws SigmaExceptions.taskHasInvalidArgsException {
         super(userInput, index);
         parseBy(userInput);
     }
