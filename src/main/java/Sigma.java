@@ -2,63 +2,133 @@ import java.util.Scanner; // object to take in user input
 
 public class Sigma {
 
-    /** size of the list of tasks */
+    /**
+     * size of the list of tasks
+     */
     private static final int LIST_SIZE = 100;
-    /** list of tasks added */
+    /**
+     * list of tasks added
+     */
     private static Task[] taskList = new Task[LIST_SIZE]; // initialise an array of size 100
-    /** head of the taskList */
+    /**
+     * head of the taskList
+     */
     private static int taskListHead = 0;
 
-    /** driver code, entry point of programme */
+    /**
+     * driver code, entry point of programme
+     */
     public static void main(String[] args) {
         sayIntro();
 
         Scanner in = new Scanner(System.in);
 
         while (true) {
-            String userInput = in.nextLine();
-            if (userInput.equals("bye")) {
-                sayBye();
-                return;
+            try {
+                String userInput = in.nextLine();
+                if (userInput.startsWith("bye")) {
+                    if (userInput.length() > 3) {
+                        throw new SigmaExceptions.didYouMeanToException("bye");
+                    }
+                    sayBye();
+                    return;
+                }
+                if (userInput.startsWith("list")) {
+                    if (userInput.length() > 4) {
+                        throw new SigmaExceptions.didYouMeanToException("list");
+                    }
+                    printList();
+                } else if (userInput.startsWith("mark")) {
+                    if (userInput.length() <= 4) {
+                        throw new SigmaExceptions.EmptyDescriptionException("mark");
+                    }
+                    setTaskStatus(userInput.substring(5, 6), true);
+                } else if (userInput.startsWith("unmark")) {
+                    if (userInput.length() <= 6) {
+                        throw new SigmaExceptions.EmptyDescriptionException("unmark");
+                    }
+                    setTaskStatus(userInput.substring(7, 8), false);
+                } else if (userInput.startsWith("todo")) {
+                    if (userInput.length() <= 4) {
+                        throw new SigmaExceptions.EmptyDescriptionException("event");
+                    }
+                    addTask(userInput.substring(5), TaskType.TODO);
+                } else if (userInput.startsWith("deadline")) {
+                    if (userInput.length() <= 8) {
+                        throw new SigmaExceptions.EmptyDescriptionException("event");
+                    }
+                    addTask(userInput.substring(9), TaskType.DEADLINE);
+                } else if (userInput.startsWith("event")) {
+                    if (userInput.length() <= 5) {
+                        throw new SigmaExceptions.EmptyDescriptionException("event");
+                    }
+                    addTask(userInput.substring(6), TaskType.EVENT);
+                } else if (userInput.equals("sigma")) {
+                    echo("SIGMA INDEED!!!!");
+                } else {
+                    throw new SigmaExceptions.UnknownCommandException(userInput);
+                }
+            } catch (SigmaExceptions.UnknownCommandException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
+                System.out.println("____________________________________________________________");
+            } catch (SigmaExceptions.EmptyDescriptionException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
+                System.out.println("____________________________________________________________");
+            } catch (SigmaExceptions.InvalidTaskListIndexException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
+                System.out.println("____________________________________________________________");
+            } catch (SigmaExceptions.didYouMeanToException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
+                System.out.println("____________________________________________________________");
+            } catch (SigmaExceptions.taskHasInvalidArgsException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
+                System.out.println("____________________________________________________________");
+            } catch (Exception e) {
+                System.out.println("____________________________________________________________");
+                System.out.println("    OOPS!!! something went wrong"); //fallback
+                System.out.println("____________________________________________________________");
             }
-            if (userInput.equals("list")) {
-                printList();
-            } else if (userInput.startsWith("mark")) {
-                setTaskStatus(userInput.substring(5, 6), true);
-            } else if (userInput.startsWith("unmark")) {
-                setTaskStatus(userInput.substring(7, 8), false);
-            } else if (userInput.startsWith("todo")) {
-                addTask(userInput.substring(5), TaskType.TODO);
-            } else if (userInput.startsWith("deadline")) {
-                addTask(userInput.substring(9), TaskType.DEADLINE);
-            } else if (userInput.startsWith("event")) {
-                addTask(userInput.substring(6), TaskType.EVENT);
-            } else if (userInput.equals("sigma")) {
-                echo("SIGMA INDEED!!!!");
+        }
+    }
+
+    /**
+     * this function sets whether or not a task is marked
+     */
+    private static void setTaskStatus(String index, boolean isMarked) throws SigmaExceptions.InvalidTaskListIndexException {
+        try {
+            int targetIndex = Integer.parseInt(index);
+
+            if (targetIndex > taskListHead + 1) {
+                throw new SigmaExceptions.InvalidTaskListIndexException(targetIndex, taskListHead);
+            }
+
+            String isDoneString = (isMarked) ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:";
+
+            if (isMarked) {
+                taskList[targetIndex - 1].markAsDone();
             } else {
-                addTask(userInput, TaskType.TASK);
+                taskList[targetIndex - 1].markAsNotDone();
             }
+
+            System.out.println("____________________________________________________________");
+            System.out.println(isDoneString);
+            System.out.println(" " + taskList[targetIndex - 1]);
+            System.out.println("____________________________________________________________");
+        } catch (NumberFormatException e) {
+            System.out.println("____________________________________________________________");
+            System.out.println("    OOPS!!! I'm sorry, please provide an integer when using mark/unmark\n    e.g. \'mark 9\'");
+            System.out.println("____________________________________________________________");
         }
     }
 
-    /** this function sets whether or not a task is marked */
-    private static void setTaskStatus(String index, boolean isMarked) {
-        int targetIndex = Integer.parseInt(index);
-        String isDoneString = (isMarked) ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:";
-
-        if (isMarked) {
-            taskList[targetIndex - 1].markAsDone();
-        } else {
-            taskList[targetIndex - 1].markAsNotDone();
-        }
-
-        System.out.println("____________________________________________________________");
-        System.out.println(isDoneString);
-        System.out.println(" " + taskList[targetIndex - 1]);
-        System.out.println("____________________________________________________________");
-    }
-
-    /** this function greets the user */
+    /**
+     * this function greets the user
+     */
     private static void sayIntro() {
         String logo = " ____  ___  ____  __  __    _    \n"
                 + "/ ___||_ _|/ ___||  \\/  |  / \\   \n"
@@ -72,22 +142,28 @@ public class Sigma {
         System.out.println("____________________________________________________________");
     }
 
-    /** this function echoes back what the user input*/
+    /**
+     * this function echoes back what the user input
+     */
     private static void echo(String userInput) {
         System.out.println("____________________________________________________________");
         System.out.println(userInput);
         System.out.println("____________________________________________________________");
     }
 
-    /** this method says goodbye to the user */
+    /**
+     * this method says goodbye to the user
+     */
     private static void sayBye() {
         System.out.println("____________________________________________________________");
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println("____________________________________________________________");
     }
 
-    /** this function adds a task to the list of tasks */
-    private static void addTask(String userInput, TaskType typeOfTask) {
+    /**
+     * this function adds a task to the list of tasks
+     */
+    private static void addTask(String userInput, TaskType typeOfTask) throws SigmaExceptions.taskHasInvalidArgsException {
         Task toAdd; // later on uses polymorphism to store the subtask object in the taskList array
 
         switch (typeOfTask) {
@@ -113,7 +189,9 @@ public class Sigma {
         System.out.println("____________________________________________________________");
     }
 
-    /** this function prints the list of tasks a user has added with the checkbox status displayed */
+    /**
+     * this function prints the list of tasks a user has added with the checkbox status displayed
+     */
     private static void printList() {
         System.out.println("____________________________________________________________");
         System.out.println("Here are the tasks in your list:");
@@ -121,7 +199,7 @@ public class Sigma {
             System.out.println(" List is empty, add tasks");
         }
         for (int i = 0; i < taskListHead; i += 1) {
-            System.out.println((i+1) + "." + taskList[i]);
+            System.out.println((i + 1) + "." + taskList[i]);
         }
         System.out.println("____________________________________________________________");
     }
