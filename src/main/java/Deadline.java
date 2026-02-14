@@ -15,11 +15,11 @@ public class Deadline extends Task {
     /**
      * parses '/by' field entered by user for current deadline object
      */
-    private void parseBy(String userInput) throws SigmaExceptions.taskHasInvalidArgsException{
+    private void parseBy(String userInput) throws SigmaExceptions.TaskHasInvalidArgsException{
         int indexOfBy = userInput.indexOf("/by");
 
         if (indexOfBy == -1) {
-            throw new SigmaExceptions.taskHasInvalidArgsException("deadline");
+            throw new SigmaExceptions.TaskHasInvalidArgsException("deadline");
         }
 
         by = userInput.substring(indexOfBy + 3).trim();
@@ -29,7 +29,7 @@ public class Deadline extends Task {
     /**
      * constructor for deadline object
      */
-    public Deadline(String userInput, int index) throws SigmaExceptions.taskHasInvalidArgsException {
+    public Deadline(String userInput, int index) throws SigmaExceptions.TaskHasInvalidArgsException {
         super(userInput, index);
         parseBy(userInput);
     }
