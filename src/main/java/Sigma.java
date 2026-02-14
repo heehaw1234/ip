@@ -117,7 +117,7 @@ public class Sigma {
 
             if (status == TaskStatus.MARKED) {
                 taskList.get(targetIndex - 1).markAsDone();
-            } else if (status == TaskStatus.UNMARKED){
+            } else if (status == TaskStatus.UNMARKED) {
                 taskList.get(targetIndex - 1).markAsNotDone();
             } else {
                 taskList.remove(targetIndex - 1);
@@ -128,7 +128,7 @@ public class Sigma {
             System.out.println("____________________________________________________________");
 
             FileHandler.saveTasks(taskList, taskListHead); // save arrayList current state
-            
+
         } catch (NumberFormatException e) {
             System.out.println("____________________________________________________________");
             System.out.println("    OOPS!!! I'm sorry, please provide an integer when using mark/unmark/delete\n    e.g. \'mark 9\'");

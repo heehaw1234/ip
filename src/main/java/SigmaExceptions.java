@@ -41,7 +41,7 @@ public class SigmaExceptions {
      */
     public static class TaskHasInvalidArgsException extends Exception {
         public TaskHasInvalidArgsException(String taskType) {
-            super("    OOPS!!! I'm sorry, the arguments u have provided for the task type " + taskType + "\n    is in the wrong format, it should be "  + (taskType.equals("events") ?
+            super("    OOPS!!! I'm sorry, the arguments u have provided for the task type " + taskType + "\n    is in the wrong format, it should be " + (taskType.equals("events") ?
                     "\'events /from today 6pm /to tomorrow 5pm\'" : "\'deadline /by friday 0700\'"));
         }
     }
