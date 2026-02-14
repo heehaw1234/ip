@@ -19,13 +19,15 @@ public class Event extends Task {
     /**
      * parses '/from' and '/to' field entered by user for current event object
      */
-    private void parseFromTo(String userInput) throws SigmaExceptions.taskHasInvalidArgsException {
+    private void parseDescFromTo(String userInput) throws SigmaExceptions.taskHasInvalidArgsException {
         int indexOfFrom = userInput.indexOf("/from");
         int indexOfTo = userInput.indexOf("/to");
 
         if (indexOfFrom == -1) {
             throw new SigmaExceptions.taskHasInvalidArgsException("events");
         } else if (indexOfTo == -1) {
+            throw new SigmaExceptions.taskHasInvalidArgsException("events");
+        } else if (indexOfTo < indexOfFrom) {
             throw new SigmaExceptions.taskHasInvalidArgsException("events");
         }
 
@@ -40,7 +42,7 @@ public class Event extends Task {
      */
     public Event(String userInput, int index) throws SigmaExceptions.taskHasInvalidArgsException {
         super(userInput, index);
-        parseFromTo(userInput);
+        parseDescFromTo(userInput);
     }
 
     /**

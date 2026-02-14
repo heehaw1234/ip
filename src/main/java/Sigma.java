@@ -108,7 +108,7 @@ public class Sigma {
                 throw new SigmaExceptions.InvalidTaskListIndexException(targetIndex, taskListHead);
             }
 
-            String isDoneString = (status == TaskStatus.MARKED) ? "Nice! I've marked this task as done:" : (status == TaskStatus.MARKED) ? "OK, I've marked this task as not done yet:" : "Noted. I've removed this task:";
+            String isDoneString = (status == TaskStatus.MARKED) ? "Nice! I've marked this task as done:" : (status == TaskStatus.UNMARKED) ? "OK, I've marked this task as not done yet:" : "Noted. I've removed this task:";
 
             System.out.println("____________________________________________________________");
             System.out.println(isDoneString);
