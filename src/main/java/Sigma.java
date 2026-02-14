@@ -15,6 +15,7 @@ public class Sigma {
      * driver code, entry point of programme
      */
     public static void main(String[] args) {
+        taskListHead = FileHandler.loadTasks(taskList); // load tasks on startup into the current tasklist from sigma.txt, returns size of curr list
         sayIntro();
 
         Scanner in = new Scanner(System.in);
@@ -24,14 +25,14 @@ public class Sigma {
                 String userInput = in.nextLine();
                 if (userInput.startsWith("bye")) {
                     if (userInput.length() > 3) {
-                        throw new SigmaExceptions.didYouMeanToException("bye");
+                        throw new SigmaExceptions.DidYouMeanToException("bye");
                     }
                     sayBye();
                     return;
                 }
                 if (userInput.startsWith("list")) {
                     if (userInput.length() > 4) {
-                        throw new SigmaExceptions.didYouMeanToException("list");
+                        throw new SigmaExceptions.DidYouMeanToException("list");
                     }
                     printList();
                 } else if (userInput.startsWith("delete")) {
@@ -81,11 +82,11 @@ public class Sigma {
                 System.out.println("____________________________________________________________");
                 System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
                 System.out.println("____________________________________________________________");
-            } catch (SigmaExceptions.didYouMeanToException e) {
+            } catch (SigmaExceptions.DidYouMeanToException e) {
                 System.out.println("____________________________________________________________");
                 System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
                 System.out.println("____________________________________________________________");
-            } catch (SigmaExceptions.taskHasInvalidArgsException e) {
+            } catch (SigmaExceptions.TaskHasInvalidArgsException e) {
                 System.out.println("____________________________________________________________");
                 System.out.println(e.getMessage()); // use the getMessage method from Exceptions class
                 System.out.println("____________________________________________________________");
@@ -125,6 +126,9 @@ public class Sigma {
             }
 
             System.out.println("____________________________________________________________");
+
+            FileHandler.saveTasks(taskList, taskListHead); // save arrayList current state
+            
         } catch (NumberFormatException e) {
             System.out.println("____________________________________________________________");
             System.out.println("    OOPS!!! I'm sorry, please provide an integer when using mark/unmark/delete\n    e.g. \'mark 9\'");
@@ -169,7 +173,7 @@ public class Sigma {
     /**
      * this function adds a task to the list of tasks
      */
-    private static void addTask(String userInput, TaskType typeOfTask) throws SigmaExceptions.taskHasInvalidArgsException {
+    private static void addTask(String userInput, TaskType typeOfTask) throws SigmaExceptions.TaskHasInvalidArgsException {
         Task toAdd; // later on uses polymorphism to store the subtask object in the taskList array
 
         switch (typeOfTask) {
@@ -188,6 +192,9 @@ public class Sigma {
 
         taskList.add(toAdd);
         taskListHead += 1;
+
+        FileHandler.saveTasks(taskList, taskListHead); // save arrayList current state
+
         System.out.println("____________________________________________________________");
         System.out.println("Got it. I've added this task:");
         System.out.println(" " + toAdd);
