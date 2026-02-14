@@ -1,15 +1,11 @@
 import java.util.Scanner; // object to take in user input
+import java.util.ArrayList;
 
 public class Sigma {
-
-    /**
-     * size of the list of tasks
-     */
-    private static final int LIST_SIZE = 100;
     /**
      * list of tasks added
      */
-    private static Task[] taskList = new Task[LIST_SIZE]; // initialise an array of size 100
+    private static ArrayList<Task> taskList = new ArrayList<>();
     /**
      * head of the taskList
      */
@@ -38,24 +34,29 @@ public class Sigma {
                         throw new SigmaExceptions.didYouMeanToException("list");
                     }
                     printList();
+                } else if (userInput.startsWith("delete")) {
+                    if (userInput.length() <= 6) {
+                        throw new SigmaExceptions.EmptyDescriptionException("delete command");
+                    }
+                    setTaskStatus(userInput.substring(7), TaskStatus.DELETED);
                 } else if (userInput.startsWith("mark")) {
                     if (userInput.length() <= 4) {
-                        throw new SigmaExceptions.EmptyDescriptionException("mark");
+                        throw new SigmaExceptions.EmptyDescriptionException("mark command");
                     }
-                    setTaskStatus(userInput.substring(5, 6), true);
+                    setTaskStatus(userInput.substring(5), TaskStatus.MARKED);
                 } else if (userInput.startsWith("unmark")) {
                     if (userInput.length() <= 6) {
-                        throw new SigmaExceptions.EmptyDescriptionException("unmark");
+                        throw new SigmaExceptions.EmptyDescriptionException("unmark command");
                     }
-                    setTaskStatus(userInput.substring(7, 8), false);
+                    setTaskStatus(userInput.substring(7), TaskStatus.UNMARKED);
                 } else if (userInput.startsWith("todo")) {
                     if (userInput.length() <= 4) {
-                        throw new SigmaExceptions.EmptyDescriptionException("event");
+                        throw new SigmaExceptions.EmptyDescriptionException("todo");
                     }
                     addTask(userInput.substring(5), TaskType.TODO);
                 } else if (userInput.startsWith("deadline")) {
                     if (userInput.length() <= 8) {
-                        throw new SigmaExceptions.EmptyDescriptionException("event");
+                        throw new SigmaExceptions.EmptyDescriptionException("deadline");
                     }
                     addTask(userInput.substring(9), TaskType.DEADLINE);
                 } else if (userInput.startsWith("event")) {
@@ -97,31 +98,36 @@ public class Sigma {
     }
 
     /**
-     * this function sets whether or not a task is marked
+     * this function sets whether or not a task is marked or deleted
      */
-    private static void setTaskStatus(String index, boolean isMarked) throws SigmaExceptions.InvalidTaskListIndexException {
+    private static void setTaskStatus(String index, TaskStatus status) throws SigmaExceptions.InvalidTaskListIndexException {
         try {
             int targetIndex = Integer.parseInt(index);
 
-            if (targetIndex > taskListHead + 1) {
+            if (targetIndex > taskListHead || taskListHead == 0 || targetIndex < 0) {
                 throw new SigmaExceptions.InvalidTaskListIndexException(targetIndex, taskListHead);
             }
 
-            String isDoneString = (isMarked) ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:";
-
-            if (isMarked) {
-                taskList[targetIndex - 1].markAsDone();
-            } else {
-                taskList[targetIndex - 1].markAsNotDone();
-            }
+            String isDoneString = (status == TaskStatus.MARKED) ? "Nice! I've marked this task as done:" : (status == TaskStatus.MARKED) ? "OK, I've marked this task as not done yet:" : "Noted. I've removed this task:";
 
             System.out.println("____________________________________________________________");
             System.out.println(isDoneString);
-            System.out.println(" " + taskList[targetIndex - 1]);
+            System.out.println(" " + taskList.get(targetIndex - 1));
+
+            if (status == TaskStatus.MARKED) {
+                taskList.get(targetIndex - 1).markAsDone();
+            } else if (status == TaskStatus.UNMARKED){
+                taskList.get(targetIndex - 1).markAsNotDone();
+            } else {
+                taskList.remove(targetIndex - 1);
+                taskListHead -= 1;
+                System.out.println("Now you have " + taskListHead + " tasks in the list.");
+            }
+
             System.out.println("____________________________________________________________");
         } catch (NumberFormatException e) {
             System.out.println("____________________________________________________________");
-            System.out.println("    OOPS!!! I'm sorry, please provide an integer when using mark/unmark\n    e.g. \'mark 9\'");
+            System.out.println("    OOPS!!! I'm sorry, please provide an integer when using mark/unmark/delete\n    e.g. \'mark 9\'");
             System.out.println("____________________________________________________________");
         }
     }
@@ -180,7 +186,7 @@ public class Sigma {
             toAdd = new Task(userInput, taskListHead);
         }
 
-        taskList[taskListHead] = toAdd;
+        taskList.add(toAdd);
         taskListHead += 1;
         System.out.println("____________________________________________________________");
         System.out.println("Got it. I've added this task:");
@@ -199,7 +205,7 @@ public class Sigma {
             System.out.println(" List is empty, add tasks");
         }
         for (int i = 0; i < taskListHead; i += 1) {
-            System.out.println((i + 1) + "." + taskList[i]);
+            System.out.println((i + 1) + "." + taskList.get(i));
         }
         System.out.println("____________________________________________________________");
     }
