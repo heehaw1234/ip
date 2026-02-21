@@ -50,6 +50,11 @@ public class Sigma {
                         throw new SigmaExceptions.EmptyDescriptionException("unmark command");
                     }
                     setTaskStatus(userInput.substring(7), TaskStatus.UNMARKED);
+                } else if (userInput.startsWith("find")) {
+                    if (userInput.length() <= 4) {
+                        throw new SigmaExceptions.EmptyDescriptionException("find command");
+                    }
+                    findTask(userInput.substring(5).toLowerCase());
                 } else if (userInput.startsWith("todo")) {
                     if (userInput.length() <= 4) {
                         throw new SigmaExceptions.EmptyDescriptionException("todo");
@@ -98,6 +103,36 @@ public class Sigma {
         }
     }
 
+    /**
+     * this function finds a specific task based on its description
+     * @param taskDescription
+     */
+    private static void findTask(String taskDescription) {
+        String query = taskDescription.trim().toLowerCase();
+        int matchingTaskCount = 0;
+        ArrayList<Integer> matchingTaskIndexList = new ArrayList<>();
+        
+        for (int i = 0; i < taskListHead; i += 1) {
+            String currTaskDesc = taskList.get(i).description.toLowerCase();
+            if (!query.isEmpty() && currTaskDesc.contains(query)) {
+                matchingTaskCount++;
+                matchingTaskIndexList.add(i);
+            }
+        }
+
+        System.out.println("____________________________________________________________");
+        if (matchingTaskCount == 0) {
+            System.out.println(" There are no matching tasks in your list");
+        }
+        else {
+            System.out.println("Here are the matching tasks in your list:");
+        }
+        for (int i = 0; i < matchingTaskCount; i += 1) {
+            System.out.println((i + 1) + "." + taskList.get(matchingTaskIndexList.get(i)));
+        }
+        System.out.println("____________________________________________________________");
+    }
+    
     /**
      * this function sets whether or not a task is marked or deleted
      */
