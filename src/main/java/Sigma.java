@@ -1,5 +1,5 @@
 import java.util.Scanner; // object to take in user input
-import java.util.ArrayList; // for A-Collections
+import java.util.ArrayList; // for A-Collections level
 
 public class Sigma {
     /**
