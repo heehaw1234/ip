@@ -1,4 +1,4 @@
-// wrapper class to have all exceptions in one .java file
+// wrapper class to have all exceptions in one .java file for A-Exceptions
 public class SigmaExceptions {
     /**
      * exception to catch if a command does not have any arguments passed in
