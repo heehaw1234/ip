@@ -1,16 +1,17 @@
+/**
+ * Represents a task that spans a time period (from-to).
+ */
 public class Event extends Task {
 
-    /**
-     * start date of current event object
-     */
+    /** The start date/time string. */
     protected String from;
-    /**
-     * end date of current event object
-     */
+    /** The end date/time string. */
     protected String to;
 
     /**
-     * returns the type of current subtask object
+     * Returns the type label for this task.
+     *
+     * @return "[E]" indicating an event task.
      */
     public String typeOf() {
         return "[" + "E" + "]";
@@ -38,7 +39,13 @@ public class Event extends Task {
     }
 
     /**
-     * constructor for event object
+     * Constructs an Event task by parsing the user input for /from and /to fields.
+     *
+     * @param userInput The user input string containing the description, /from, and
+     *                  /to clauses.
+     * @param index     The index of this task in the task list.
+     * @throws SigmaExceptions.TaskHasInvalidArgsException If /from or /to fields
+     *                                                     are missing or invalid.
      */
     public Event(String userInput, int index) throws SigmaExceptions.TaskHasInvalidArgsException {
         super(userInput, index);
@@ -46,7 +53,7 @@ public class Event extends Task {
     }
 
     /**
-     * toString method overriding
+     * Returns a string representation of this event task.
      */
     @Override
     public String toString() {

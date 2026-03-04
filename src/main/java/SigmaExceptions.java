@@ -1,7 +1,9 @@
-// wrapper class to have all exceptions in one .java file for A-Exceptions
+/**
+ * Contains all custom exception classes used by Sigma.
+ */
 public class SigmaExceptions {
     /**
-     * exception to catch if a command does not have any arguments passed in
+     * Thrown when a command is given without a required description.
      */
     public static class EmptyDescriptionException extends Exception {
         public EmptyDescriptionException(String userInput) {
@@ -10,7 +12,7 @@ public class SigmaExceptions {
     }
 
     /**
-     * exception to catch if a user has entered an unknown command
+     * Thrown when the user enters an unrecognised command.
      */
     public static class UnknownCommandException extends Exception {
         public UnknownCommandException(String userInput) {
@@ -19,16 +21,17 @@ public class SigmaExceptions {
     }
 
     /**
-     * exception to catch if a user has tried to mark/unmark with an invalid taskList Index
+     * Thrown when the user provides an invalid task list index.
      */
     public static class InvalidTaskListIndexException extends Exception {
         public InvalidTaskListIndexException(int indexUserTriedToAccess, int sizeOfList) {
-            super("    OOPS!!! U tried to access index " + indexUserTriedToAccess + "\n    but the current list is of length " + sizeOfList);
+            super("    OOPS!!! U tried to access index " + indexUserTriedToAccess
+                    + "\n    but the current list is of length " + sizeOfList);
         }
     }
 
     /**
-     * exception to catch if a user has tried to mark/unmark with an invalid taskList Index
+     * Thrown when the user input resembles a known command with extra characters.
      */
     public static class DidYouMeanToException extends Exception {
         public DidYouMeanToException(String desiredCommand) {
@@ -37,12 +40,14 @@ public class SigmaExceptions {
     }
 
     /**
-     * exception to catch if a user tried to create a new task without valid arguments passed in
+     * Thrown when a task is created with invalid or missing arguments.
      */
     public static class TaskHasInvalidArgsException extends Exception {
         public TaskHasInvalidArgsException(String taskType) {
-            super("    OOPS!!! I'm sorry, the arguments u have provided for the task type " + taskType + "\n    is in the wrong format, it should be " + (taskType.equals("events") ?
-                    "\'events /from today 6pm /to tomorrow 5pm\'" : "\'deadline /by friday 0700\'"));
+            super("    OOPS!!! I'm sorry, the arguments u have provided for the task type " + taskType
+                    + "\n    is in the wrong format, it should be "
+                    + (taskType.equals("events") ? "\'events /from today 6pm /to tomorrow 5pm\'"
+                            : "\'deadline /by friday 0700\'"));
         }
     }
 }
