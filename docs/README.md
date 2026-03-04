@@ -1,4 +1,4 @@
-# Sigma User Guide
+# SIGMA User Guide
 
 Sigma is a **command-line task management chatbot** that helps you keep track of your to-dos, deadlines, and events. It saves your tasks automatically so they persist between sessions.
 
