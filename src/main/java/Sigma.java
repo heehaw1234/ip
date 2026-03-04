@@ -1,11 +1,21 @@
 import java.util.ArrayList;
 
+/**
+ * Represents the main chatbot application.
+ * Initialises the necessary components and runs the command loop.
+ */
 public class Sigma {
 
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Sigma chatbot instance.
+     * Loads existing tasks from the file at the given path.
+     *
+     * @param filePath Path to the file used for saving/loading tasks.
+     */
     public Sigma(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -17,6 +27,10 @@ public class Sigma {
         }
     }
 
+    /**
+     * Runs the main command loop, reading and executing user commands
+     * until the "bye" command is given.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -149,6 +163,11 @@ public class Sigma {
         ui.showTaskAdded(toAdd, tasks.getSize());
     }
 
+    /**
+     * Starts the Sigma chatbot application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         new Sigma("./data/sigma.txt").run();
     }
