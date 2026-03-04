@@ -7,7 +7,7 @@ public class Task {
      * boolean flag to set if task has been marked 'X' or not
      */
     protected boolean isDone;
-    /**
+    /** 
      * index of current task in the list
      */
     protected int index;
