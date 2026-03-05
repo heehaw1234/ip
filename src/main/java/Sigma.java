@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Represents the main chatbot application.
- * Initialises the necessary components and runs the command loop.
+ * Initialises the necessary components & runs the command loop.
  */
 public class Sigma {
 
