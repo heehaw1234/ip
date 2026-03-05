@@ -1,56 +1,60 @@
+/**
+ * Represents a task with a description and completion status.
+ */
 public class Task {
-    /**
-     * description of the task itself
-     */
+    /** Description of the task. */
     protected String description;
-    /**
-     * boolean flag to set if task has been marked 'X' or not
-     */
+    /** Whether the task has been marked as done. */
     protected boolean isDone;
-    /**
-     * index of current task in the list
-     */
+    /** Index of the task in the list. */
     protected int index;
 
     /**
-     * constructor to construct a new task
+     * Constructs a new Task with the given description and index.
+     *
+     * @param description Description of the task.
+     * @param index       Index of the task in the list.
      */
     public Task(String description, int index) {
         this.description = description;
-        this.isDone = false; // defaults to undone
+        this.isDone = false;
         this.index = index;
     }
 
     /**
-     * returns the status of whether checkbox is marked or not
+     * Returns the status icon of the task.
+     *
+     * @return "X" if done, " " if not done.
      */
     public String getStatusIcon() {
-        return (isDone ? "X" : " "); // mark done task with X
+        return (isDone ? "X" : " ");
     }
 
     /**
-     * returns a string of the task with checkbox
+     * Returns a string representation of the task's checkbox status.
+     *
+     * @return Checkbox string e.g. "[X] " or "[ ] ".
      */
     public String returnMarkedString() {
         return "[" + getStatusIcon() + "] ";
     }
 
     /**
-     * sets isDone to true
+     * Marks this task as done.
      */
     public void markAsDone() {
         isDone = true;
     }
 
     /**
-     * sets isDone to false
+     * Marks this task as not done.
      */
     public void markAsNotDone() {
         isDone = false;
     }
 
     /**
-     * toString method overriding
+     * Returns a string representation of the task with its checkbox status.
      */
     @Override
     public String toString() {
