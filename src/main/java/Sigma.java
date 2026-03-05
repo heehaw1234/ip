@@ -12,7 +12,7 @@ public class Sigma {
     private static int taskListHead = 0;
 
     /**
-     * driver code, entry point of programme
+     * driver code, entry point of our programme
      */
     public static void main(String[] args) {
         taskListHead = FileHandler.loadTasks(taskList); // load tasks on startup into the current tasklist from sigma.txt, returns size of curr list
